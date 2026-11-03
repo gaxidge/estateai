@@ -991,28 +991,131 @@ export const INITIAL_APPOINTMENTS: Appointment[] = [
 export const INITIAL_AUTOMATIONS: AutomationJob[] = [
   {
     id: "job-501",
-    name: "Yeni müşteriyi otomatik kaydet",
+    name: "Yeni müşteriyi otomatik karşıla ve kaydet",
     description:
-      "WhatsApp'tan yazan yeni bir kişi asistan tarafından karşılanır; bütçesi, aradığı bölge ve gayrimenkul türü öğrenilerek müşteri listenize otomatik eklenir.",
-    schedule: "Her yeni WhatsApp mesajında",
+      "WhatsApp'tan yazan yeni bir kişi asistan tarafından saniyeler içinde karşılanır; bütçesi, aradığı bölge ve oda sayısı öğrenilerek müşteri listenize otomatik eklenir.",
+    schedule: "7/24 her yeni mesajda",
     category: "Müşteri Kaydı",
     isActive: true,
     lastRunAt: "03.11.2026 11:01",
-    nextRunAt: "Yeni mesaj geldiğinde",
+    nextRunAt: "Anlık (Yeni mesaj geldiğinde)",
     totalRuns30d: 412,
     successRate: 99.5,
     steps: [
-      "Gelen mesaj karşılanır",
-      "Müşterinin ihtiyacı öğrenilir",
-      "Müşteri kartı oluşturulur",
-      "Sorumlu danışmana bildirim gider",
+      "Gelen mesaj saniyeler içinde karşılanır",
+      "Bütçe ve bölge tercihi öğrenilir",
+      "Müşteri kartı otomatik açılır",
+      "Uygun ilanlar hemen önerilir",
     ],
+    impactBadge: "Bu ay 34 mesai dışı müşteriyi kaçırmadan yakaladı",
+    timingOptions: [
+      "7/24 anında yanıtla",
+      "Sadece mesai saatleri dışında (18:00 - 09:00)",
+      "Mesai dışı ve hafta sonları",
+    ],
+    selectedTiming: "7/24 anında yanıtla",
+    recipientLabel: "Yeni Yazan Müşteriye",
+    whatsappTemplate:
+      "Merhaba {Müşteri_Adı}, {Ofis_Adı}'na hoş geldiniz! Aradığınız bölge ve bütçe aralığını paylaşırsanız size en uygun ilanlarımızı hemen gönderebilirim.",
+    whatsappPreview:
+      "Merhaba Kaan Bey, Boğaziçi Prestij Gayrimenkul'e hoş geldiniz! Aradığınız bölge ve bütçe aralığını paylaşırsanız size en uygun ilanlarımızı hemen gönderebilirim.",
+  },
+  {
+    id: "job-506",
+    name: "Fiyatı düşen ilanı bekleyen müşterilere haber ver",
+    description:
+      "Portföyünüzdeki bir ilanın fiyatını indirdiğinizde, daha önce o bölgeyle ilgilenmiş veya bütçesi o fiyata yakın olan müşterilere otomatik 'Fiyat Düştü' mesajı gönderir.",
+    schedule: "İlan fiyatı indirildiğinde",
+    category: "Fiyat & Fırsat",
+    isActive: true,
+    lastRunAt: "03.11.2026 10:15",
+    nextRunAt: "Fiyat güncellendiğinde",
+    totalRuns30d: 64,
+    successRate: 99.2,
+    steps: [
+      "İlandaki fiyat indirimi algılanır",
+      "O bölgeyi arayan eski müşteriler bulunur",
+      "Yeni fiyatla birlikte WhatsApp mesajı gönderilir",
+      "İlgilenen müşteri danışmana bildirilir",
+    ],
+    impactBadge: "Fiyat indirimlerinden 9 yeni yer gösterme randevusu sağladı",
+    timingOptions: [
+      "Fiyat düşer düşmez (Danışman onayıyla)",
+      "Fiyat düşer düşmez (Otomatik gönder)",
+      "Sadece %5 ve üzeri indirimlerde",
+    ],
+    selectedTiming: "Fiyat düşer düşmez (Danışman onayıyla)",
+    recipientLabel: "O Bölgeyi Arayan Müşterilere",
+    whatsappTemplate:
+      "Merhaba {Müşteri_Adı}, ilgilendiğiniz {Bölge} bölgesindeki '{İlan_Başlığı}' ilanımızda fiyat {Yeni_Fiyat} olarak güncellendi. Bu hafta görmek ister misiniz?",
+    whatsappPreview:
+      "Merhaba Elif Hanım, ilgilendiğiniz Ataşehir bölgesindeki 'Site İçi Peyzaj Manzaralı 3+1 Daire' ilanımızda fiyat 13.750.000 ₺ olarak güncellendi. Bu hafta görmek ister misiniz?",
+  },
+  {
+    id: "job-503",
+    name: "Randevu öncesi konum ve hatırlatma gönder",
+    description:
+      "Yer gösterme randevusundan önce müşteriye WhatsApp üzerinden gayrimenkulün konumu, randevu saati ve danışman kartviziti otomatik gönderilir.",
+    schedule: "Randevudan 1 gün ve 2 saat önce",
+    category: "Randevu Hatırlatma",
+    isActive: true,
+    lastRunAt: "03.11.2026 11:45",
+    nextRunAt: "03.11.2026 12:00",
+    totalRuns30d: 188,
+    successRate: 100,
+    steps: [
+      "Yaklaşan randevular kontrol edilir",
+      "Müşteriye konum ve saat hatırlatması gider",
+      "Müşteri onaylarsa takvimde işaretlenir",
+    ],
+    impactBadge: "Bu ay 47 randevuda unutulma ve son dakika iptalini önledi",
+    timingOptions: [
+      "Hem 24 saat hem 2 saat önce",
+      "Sadece 2 saat önce",
+      "Sadece 1 gün önce",
+    ],
+    selectedTiming: "Hem 24 saat hem 2 saat önce",
+    recipientLabel: "Randevusu Olan Müşteriye",
+    whatsappTemplate:
+      "Merhaba {Müşteri_Adı}, yarın saat {Saat}'te '{İlan_Başlığı}' yer gösterme randevumuzu hatırlatmak isteriz. Danışmanımız {Danışman_Adı} sizi mülk konumunda karşılayacaktır.",
+    whatsappPreview:
+      "Merhaba Kaan Bey, yarın saat 14:30'da 'Suadiye Bağdat Caddesi Deniz Manzaralı 4+1' yer gösterme randevumuzu hatırlatmak isteriz. Danışmanımız Selim Soylu sizi mülk konumunda karşılayacaktır.",
+  },
+  {
+    id: "job-507",
+    name: "Mal sahibine haftalık 'Mülkünüzle İlgileniyoruz' raporu",
+    description:
+      "Mal sahiplerinin 'Benim ev ne oldu, arayan yok mu?' sorusunu ortadan kaldırır. Her Cuma günü mülk sahibine ilanının kaç kişiye önerildiğini ve yapılan görüşmeleri özetler.",
+    schedule: "Her Cuma saat 17:00",
+    category: "Mal Sahibi İlişkileri",
+    isActive: true,
+    lastRunAt: "01.11.2026 17:00",
+    nextRunAt: "06.11.2026 17:00",
+    totalRuns30d: 36,
+    successRate: 100,
+    steps: [
+      "İlanın haftalık görüntülenme ve önerilme sayısı toplanır",
+      "Yapılan yer gösterimleri eklenir",
+      "Mal sahibine kurumsal bilgi mesajı gönderilir",
+    ],
+    impactBadge: "Yetki sözleşmesi yenileme oranını %92'ye çıkardı",
+    timingOptions: [
+      "Her Cuma saat 17:00",
+      "Her Pazartesi saat 10:00",
+      "15 günde bir Cuma günü",
+    ],
+    selectedTiming: "Her Cuma saat 17:00",
+    recipientLabel: "Portföy Sahibine (Mal Sahibi)",
+    whatsappTemplate:
+      "Sayın {Mal_Sahibi}, yetkili olduğumuz '{İlan_Başlığı}' mülkünüz bu hafta {Görüntülenme} alıcı adayına sunulmuş ve {Randevu_Sayısı} yer gösterimi planlanmıştır. Bilginize sunarız.",
+    whatsappPreview:
+      "Sayın Haldun Çelikkol, yetkili olduğumuz 'Suadiye Bağdat Caddesi 4+1' mülkünüz bu hafta 42 alıcı adayına sunulmuş ve 2 yer gösterimi planlanmıştır. Bilginize sunarız.",
   },
   {
     id: "job-502",
-    name: "Yeni ilana uygun müşteri bul",
+    name: "Yeni eklenen ilana uygun müşterileri bul",
     description:
-      "Portföye yeni bir ilan eklendiğinde veya fiyatı değiştiğinde, bütçesi ve bölgesi uyan müşteriler bulunur ve danışmana öneri listesi hazırlanır.",
+      "Portföye yeni bir ilan eklediğinizde, kayıtlı müşterileriniz arasında bütçesi ve aradığı bölge uyanları saniyeler içinde listeler ve tanıtım mesajı hazırlar.",
     schedule: "Yeni ilan eklendiğinde",
     category: "Portföy Eşleştirme",
     isActive: true,
@@ -1021,54 +1124,88 @@ export const INITIAL_AUTOMATIONS: AutomationJob[] = [
     totalRuns30d: 86,
     successRate: 98.8,
     steps: [
-      "İlan bilgileri incelenir",
+      "Yeni ilanın özellikleri incelenir",
       "Bütçe ve bölgesi uyan müşteriler bulunur",
-      "En uygun müşteriler sıralanır",
-      "Danışman onayıyla müşteriye gönderilir",
+      "Danışman onayıyla müşterilere gönderilir",
     ],
-  },
-  {
-    id: "job-503",
-    name: "Randevu hatırlatması gönder",
-    description:
-      "Yer gösterme randevusundan 1 gün ve 2 saat önce müşteriye WhatsApp üzerinden konum, saat ve danışman bilgisi gönderilir.",
-    schedule: "Her 15 dakikada bir kontrol edilir",
-    category: "Randevu Hatırlatma",
-    isActive: true,
-    lastRunAt: "03.11.2026 11:45",
-    nextRunAt: "03.11.2026 12:00",
-    totalRuns30d: 2880,
-    successRate: 100,
-    steps: [
-      "Yaklaşan randevular kontrol edilir",
-      "Müşteriye hatırlatma mesajı gönderilir",
-      "Müşterinin yanıtına göre randevu güncellenir",
+    impactBadge: "Yeni ilanlara ilk 24 saatte ortalama 4 alıcı adayı buluyor",
+    timingOptions: [
+      "İlan eklenince danışman onayına sun",
+      "İlan eklenince uygun müşterilere otomatik gönder",
     ],
+    selectedTiming: "İlan eklenince danışman onayına sun",
+    recipientLabel: "Kriterleri Uyan Müşterilere",
+    whatsappTemplate:
+      "Merhaba {Müşteri_Adı}, aradığınız {Bölge} bölgesinde bütçenize uygun yeni bir portföyümüz eklendi: '{İlan_Başlığı}' ({Fiyat}). Detayları ve fotoğrafları incelemek ister misiniz?",
+    whatsappPreview:
+      "Merhaba Serdar Bey, aradığınız Zekeriyaköy bölgesinde bütçenize uygun yeni bir portföyümüz eklendi: 'Orman Etabı 5+2 Müstakil Villa' (64.000.000 ₺). Detayları incelemek ister misiniz?",
   },
   {
     id: "job-504",
-    name: "Uzun süredir görüşülmeyen müşterileri hatırlat",
+    name: "Uzun süredir görüşülmeyen müşterileri canlandır",
     description:
-      "5 gündür iletişim kurulmayan müşteriler tespit edilir; ilgilendikleri bölgedeki yeni ilanlarla birlikte danışmana takip hatırlatması yapılır.",
-    schedule: "Pazartesi–Cumartesi, her sabah 10:00",
+      "Belirlediğiniz süre boyunca iletişim kurulmayan müşterileri tespit eder; ilgilendikleri bölgedeki güncel ilanlarla birlikte tekrar iletişime geçer.",
+    schedule: "Her sabah 10:00",
     category: "Müşteri Takibi",
     isActive: true,
     lastRunAt: "03.11.2026 10:00",
     nextRunAt: "04.11.2026 10:00",
-    totalRuns30d: 26,
+    totalRuns30d: 52,
     successRate: 97.4,
     steps: [
-      "5 gündür görüşülmeyen müşteriler bulunur",
-      "İlgilendikleri bölgedeki yeni ilanlar eşleştirilir",
-      "Danışmana takip hatırlatması gönderilir",
+      "İletişimi soğuyan müşteriler bulunur",
+      "Bölgesindeki yeni ilanlar seçilir",
+      "Müşteriye nazik takip mesajı gönderilir",
     ],
+    impactBadge: "Bu ay 14 eski müşteriden tekrar sıcak dönüş sağladı",
+    timingOptions: [
+      "5 gün görüşülmediğinde",
+      "3 gün görüşülmediğinde",
+      "7 gün görüşülmediğinde",
+    ],
+    selectedTiming: "5 gün görüşülmediğinde",
+    recipientLabel: "Beklemedeki Müşterilere",
+    whatsappTemplate:
+      "Merhaba {Müşteri_Adı}, {Bölge} bölgesindeki gayrimenkul arayışınız devam ediyor mu? Kriterlerinize uygun yeni seçeneklerimizi paylaşmamı ister misiniz?",
+    whatsappPreview:
+      "Merhaba Orhan Bey, Çekmeköy bölgesindeki arsa arayışınız devam ediyor mu? Kriterlerinize uygun yeni seçeneklerimizi paylaşmamı ister misiniz?",
+  },
+  {
+    id: "job-508",
+    name: "Yetki sözleşmesi bitmeden 15 gün önce danışmanı uyar",
+    description:
+      "Portföylerinizin yetki belgesi bitiş tarihlerini takip eder; süre dolmadan 15 gün önce sorumlu danışmana ve mal sahibine yenileme hatırlatması yapar.",
+    schedule: "Her Pazartesi 09:30",
+    category: "Mal Sahibi İlişkileri",
+    isActive: true,
+    lastRunAt: "02.11.2026 09:30",
+    nextRunAt: "09.11.2026 09:30",
+    totalRuns30d: 12,
+    successRate: 100,
+    steps: [
+      "Yetki süresi yaklaşan ilanlar taranır",
+      "Sorumlu danışmana bildirim gönderilir",
+      "İstenirse mal sahibine uzatma mesajı iletilir",
+    ],
+    impactBadge: "Hiçbir portföyün yetki süresi unutularak kaybedilmedi",
+    timingOptions: [
+      "Bitime 15 gün kala uyar",
+      "Bitime 30 gün kala uyar",
+      "Bitime 7 gün kala uyar",
+    ],
+    selectedTiming: "Bitime 15 gün kala uyar",
+    recipientLabel: "Sorumlu Danışmana",
+    whatsappTemplate:
+      "Hatırlatma: '{İlan_Başlığı}' ({İlan_Kodu}) portföyünün yetki sözleşmesi {Bitiş_Tarihi} tarihinde sona eriyor. Mal sahibi {Mal_Sahibi} ile yenileme görüşmesi planlayın.",
+    whatsappPreview:
+      "Hatırlatma: 'Urla Kuşçular Taş Mimari 4+1' (EST-1059) portföyünün yetki sözleşmesi 15 gün sonra sona eriyor. Mal sahibi Cemil Karaca ile yenileme görüşmesi planlayın.",
   },
   {
     id: "job-505",
-    name: "Gün sonu görüşme özeti",
+    name: "Gün sonu yönetici ve danışman özeti",
     description:
-      "Asistanın gün boyunca yaptığı görüşmeler özetlenir; alıma en yakın müşteriler öne çıkarılarak ofis yöneticisine rapor gönderilir.",
-    schedule: "Her gün 19:00",
+      "Asistanın gün boyunca yaptığı tüm görüşmeleri özetler; alıma en yakın müşterileri ve ertesi günün randevularını akşam tek mesajda raporlar.",
+    schedule: "Her akşam 19:00",
     category: "Günlük Özet",
     isActive: true,
     lastRunAt: "02.11.2026 19:00",
@@ -1076,11 +1213,22 @@ export const INITIAL_AUTOMATIONS: AutomationJob[] = [
     totalRuns30d: 30,
     successRate: 100,
     steps: [
-      "Günün görüşmeleri toplanır",
-      "Her görüşme kısaca özetlenir",
-      "Müşteri notları güncellenir",
-      "Rapor ofis yöneticisine gönderilir",
+      "Günün tüm WhatsApp görüşmeleri toplanır",
+      "Ciddi alıcı adayları öne çıkarılır",
+      "Ofis yöneticisine günlük özet gönderilir",
     ],
+    impactBadge: "Her akşam tüm ofis trafiğini 1 dakikada inceleme imkânı",
+    timingOptions: [
+      "Her akşam 19:00",
+      "Her akşam 20:00",
+      "Her sabah 08:30 (Önceki günün özeti)",
+    ],
+    selectedTiming: "Her akşam 19:00",
+    recipientLabel: "Ofis Yöneticisine",
+    whatsappTemplate:
+      "Gün Sonu Özeti ({Tarih}): Bugün {Görüşme_Sayısı} müşteriyle görüşüldü, {Yeni_Müşteri} yeni kayıt açıldı ve yarın için {Randevu_Sayısı} yer gösterme randevusu onaylandı.",
+    whatsappPreview:
+      "Gün Sonu Özeti (03.11.2026): Bugün 14 müşteriyle görüşüldü, 4 yeni kayıt açıldı ve yarın için 2 yer gösterme randevusu onaylandı.",
   },
 ];
 

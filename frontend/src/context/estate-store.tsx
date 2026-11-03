@@ -53,6 +53,7 @@ interface EstateStoreContextType {
   automationLogs: AutomationExecutionLog[];
   toggleAutomation: (id: string) => void;
   triggerAutomationNow: (id: string) => void;
+  updateAutomationSettings: (id: string, partial: Partial<AutomationJob>) => void;
 }
 
 const EstateStoreContext = createContext<EstateStoreContextType | undefined>(undefined);
@@ -483,6 +484,15 @@ export function EstateStoreProvider({ children }: { children: React.ReactNode })
     );
   };
 
+  const updateAutomationSettings = (
+    id: string,
+    partial: Partial<AutomationJob>
+  ) => {
+    setAutomations((prev) =>
+      prev.map((job) => (job.id === id ? { ...job, ...partial } : job))
+    );
+  };
+
   const triggerAutomationNow = (id: string) => {
     const job = automations.find((j) => j.id === id);
     if (!job) return;
@@ -541,6 +551,7 @@ export function EstateStoreProvider({ children }: { children: React.ReactNode })
         automationLogs,
         toggleAutomation,
         triggerAutomationNow,
+        updateAutomationSettings,
       }}
     >
       {children}

@@ -176,12 +176,14 @@ export interface AutomationJob {
   id: string;
   name: string;
   description: string;
-  schedule: string; // Kullanıcıya gösterilen sade çalışma zamanı (örn. "Her gün 19:00")
+  schedule: string;
   category:
     | "Müşteri Kaydı"
     | "Portföy Eşleştirme"
     | "Randevu Hatırlatma"
     | "Müşteri Takibi"
+    | "Fiyat & Fırsat"
+    | "Mal Sahibi İlişkileri"
     | "Günlük Özet";
   isActive: boolean;
   lastRunAt: string;
@@ -189,6 +191,12 @@ export interface AutomationJob {
   totalRuns30d: number;
   successRate: number;
   steps: string[];
+  impactBadge: string;
+  timingOptions: string[];
+  selectedTiming: string;
+  recipientLabel: string;
+  whatsappTemplate: string;
+  whatsappPreview: string;
 }
 
 export interface AutomationExecutionLog {
