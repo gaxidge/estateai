@@ -1,0 +1,26 @@
+# Node / Next.js
+node_modules/
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+.next/
+out/
+
+# .NET / Backend (Faz 2)
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Ortam değişkenleri ve yerel dosyalar
+.env
+.env.*
+!.env.example
+*.log
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
