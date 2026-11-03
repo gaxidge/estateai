@@ -20,4 +20,4 @@ npm install
 npm run dev
 ```
 
-Tarayıcınızda `http://localhost:3000` adresini açın.
+
